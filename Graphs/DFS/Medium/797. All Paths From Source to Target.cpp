@@ -34,28 +34,71 @@ The input graph is guaranteed to be a DAG.
 
 
 
+#include <bits/stdc++.h>
+using namespace std;
+
 class Solution {
 public:
 
     void dfs(vector<vector<int>>& graph, vector<vector<int>>& paths, vector<int> &path, int source){
+
         path.push_back(source);
+
         if(source == graph.size()-1){
-            paths.push_back(path);        
-            
+            paths.push_back(path);
         }
         else{
             for(auto x : graph[source]){
                 dfs(graph, paths, path, x);
             }
         }
+
         path.pop_back();
     }
 
     vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {
-        vector<vector<int>>paths;
+
+        vector<vector<int>> paths;
         vector<int> path;
+
         dfs(graph, paths, path, 0);
+
         return paths;
     }
  
 };
+
+int main() {
+
+    int n;
+    cin >> n;
+
+    vector<vector<int>> graph(n);
+
+    cin.ignore();  
+
+    for(int i=0;i<n;i++){
+
+        string line;
+        getline(cin,line);
+
+        stringstream ss(line);
+
+        int x;
+
+        while(ss>>x)
+            graph[i].push_back(x);
+    }
+
+    Solution Sol;
+
+    vector<vector<int>> ans = Sol.allPathsSourceTarget(graph);
+
+    for(int i=0;i<ans.size();i++){
+
+        for(int j=0;j<ans[i].size();j++)
+            cout<<ans[i][j]<<" ";
+
+        cout<<endl;
+    }
+}
